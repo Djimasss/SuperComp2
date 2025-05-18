@@ -2,7 +2,6 @@
 #include <vector>
 #include <cmath>
 #include <omp.h>
-#include <chrono>
 
 using namespace std;
 
@@ -56,13 +55,11 @@ void solveAndMeasure(int N, int num_threads) {
     auto A = generateMatrix(N);
     auto b = generateVector(N);
 
-    auto start = chrono::high_resolution_clock::now();
+    double start = omp_get_wtime();
     auto x = jacobiMethod(A, b);
-    auto end = chrono::high_resolution_clock::now();
+    double end = omp_get_wtime();
 
-    chrono::duration<double> duration = end - start;
-
-    cout << "N = " << N << ", Threads = " << num_threads << ", Time = " << duration.count() << " seconds" << endl;
+    cout << "N = " << N << ", Threads = " << num_threads << ", Time = " << (end - start) << " seconds" << endl;
 }
 
 int main() {
